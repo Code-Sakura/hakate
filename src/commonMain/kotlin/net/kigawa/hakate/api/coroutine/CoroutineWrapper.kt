@@ -4,7 +4,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 
-interface CoroutineWrapper {
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+expect class CoroutineWrapper() {
     fun launch(
         scope: CoroutineScope,
         context: CoroutineContextWrapper = emptyCoroutineContext(),
