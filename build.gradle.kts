@@ -31,6 +31,9 @@ kotlin {
         implementation(libs.kotlin.stdlib.js)
     }
     sourceSets["commonMain"].dependencies {
+//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+//        implementation(libs.kotlinx.coroutines.core)
+//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     }
     sourceSets["jvmMain"].apply {
         dependencies {
@@ -39,7 +42,7 @@ kotlin {
     sourceSets["jvmTest"].apply {
         dependencies {
             implementation(libs.kotlin.test.junit)
-            implementation(kotlin("test"))
+//            implementation(kotlin("test"))
         }
     }
 

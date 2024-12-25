@@ -1,11 +1,12 @@
 
 [versions]
 koin-version = "4.0.0"
-kotlin-version = "2.0.21"
+kotlin-version = "2.1.0"
 ktor-version = "3.0.1"
 logback-version = "1.4.14"
 mongo-version = "4.10.2"
 kvision-version = "8.0.1"
+coroutines-version = "1.9.0"
 
 [libraries]
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin-version" }
@@ -23,6 +24,7 @@ ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "k
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-version" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml-jvm", version.ref = "ktor-version" }
 kotlin-stdlib-js = { module = "org.jetbrains.kotlin:kotlin-stdlib-js", version.ref = "kotlin-version" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines-version" }
 kvision-kvision = { module = "io.kvision:kvision", version.ref = "kvision-version" }
 kvision-bootstrap = { module = "io.kvision:kvision-bootstrap", version.ref = "kvision-version" }
 kvision-ktor-koin = { module = "io.kvision:kvision-server-ktor-koin", version.ref = "kvision-version" }

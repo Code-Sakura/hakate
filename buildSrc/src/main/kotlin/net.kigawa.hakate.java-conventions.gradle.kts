@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-  commonMainImplementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
+  commonMainImplementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
   commonMainImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
 
   commonTestImplementation(kotlin("test-common"))
@@ -29,7 +29,7 @@ version = "0.0.1"
 kotlin {
   jvm {
   }
-  js(IR) {
+  js {
     browser {
       testTask {
         useKarma {
