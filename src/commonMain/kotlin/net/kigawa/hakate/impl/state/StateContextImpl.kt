@@ -1,6 +1,7 @@
 package net.kigawa.hakate.impl.state
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import net.kigawa.hakate.api.state.StateContext
 import net.kigawa.hakate.api.state.StateDispatcher
 import net.kigawa.hakate.impl.Utl.suspendApply
@@ -14,7 +15,7 @@ class StateContextImpl(
     override fun StateContext.dispatch(
         block: suspend StateContext.() -> Unit,
     ) {
-        dispatcher.coroutine().launch(scope) {
+        scope.launch {
             StateContextImpl(dispatcher, this).suspendApply {
                 block()
             }

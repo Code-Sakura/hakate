@@ -1,16 +1,8 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    id("net.kigawa.hakate.java-conventions")
+    kotlin("multiplatform") version "2.1.0"
 }
-
-//application {
-//    mainClass.set("io.ktor.server.netty.EngineMain")
-//
-//    val isDevelopment: Boolean = project.ext.has("development")
-//    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
-//}
-
 repositories {
     mavenCentral()
 }
@@ -19,33 +11,42 @@ dependencies {
 }
 
 kotlin {
-    js(IR) {
-    }
     jvm {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
         }
     }
-    sourceSets["jsMain"].dependencies {
-        implementation(libs.kotlin.stdlib.js)
+    js {
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
+        }
     }
     sourceSets["commonMain"].dependencies {
-//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
-//        implementation(libs.kotlinx.coroutines.core)
-//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.kotlin.stdlib)
+        implementation(libs.kotlin.stdlib.js)
     }
-    sourceSets["jvmMain"].apply {
-        dependencies {
-        }
+    sourceSets["commonTest"].dependencies {
+        implementation(kotlin("test-common"))
+        implementation(kotlin("test-annotations-common"))
+
     }
-    sourceSets["jvmTest"].apply {
-        dependencies {
-            implementation(libs.kotlin.test.junit)
-//            implementation(kotlin("test"))
-        }
+    sourceSets["jvmMain"].dependencies {
+        implementation(kotlin("test-junit5"))
+    }
+    sourceSets["jvmTest"].dependencies {
+
     }
 
-//    sourceSets["jsTest"].dependencies {
-//    }
+    sourceSets["jsMain"].dependencies {
+    }
+    sourceSets["jsTest"].dependencies {
+        implementation(kotlin("test-js"))
+    }
 }
+
