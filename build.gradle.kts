@@ -29,7 +29,6 @@ kotlin {
     sourceSets["commonMain"].dependencies {
         implementation(libs.kotlinx.coroutines.core)
         implementation(libs.kotlin.stdlib)
-        implementation(libs.kotlin.stdlib.js)
     }
     sourceSets["commonTest"].dependencies {
         implementation(kotlin("test-common"))
@@ -44,6 +43,7 @@ kotlin {
     }
 
     sourceSets["jsMain"].dependencies {
+        implementation(libs.kotlin.stdlib.js)
     }
     sourceSets["jsTest"].dependencies {
         implementation(kotlin("test-js"))

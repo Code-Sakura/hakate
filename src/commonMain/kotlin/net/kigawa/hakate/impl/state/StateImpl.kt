@@ -13,8 +13,10 @@ class StateImpl<T>(
         flow.value = value
     }
 
-    override fun <R> StateContext.collect(defaultValue: R, block: StateContext.(T, R) -> R) {
-        dispatch {
+    override fun currentValue(): T = flow.value
+
+    override fun <R> collect(context: StateContext, defaultValue: R, block: StateContext.(T, R) -> R) {
+        context.dispatch {
             var defaultValue = defaultValue
             flow.collect {
                 defaultValue = block(it, defaultValue)
@@ -22,9 +24,9 @@ class StateImpl<T>(
         }
     }
 
-    override fun <R> StateContext.child(defaultValue: R, block: StateContext.(T, R) -> R): State<R> {
-        val state = dispatcher().newState(defaultValue)
-        dispatch {
+    override fun <R> child(context: StateContext, defaultValue: R, block: StateContext.(T, R) -> R): State<R> {
+        val state = context.dispatcher().newState(defaultValue)
+        context.dispatch {
             collect(defaultValue) { value, prev ->
                 val result = block(value, prev)
                 state.set(result)

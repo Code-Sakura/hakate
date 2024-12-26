@@ -1,6 +1,7 @@
 package net.kigawa.hakate.impl.state
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.kigawa.hakate.api.state.StateContext
 import net.kigawa.hakate.api.state.StateDispatcher
@@ -11,12 +12,11 @@ class StateContextImpl(
     private val scope: CoroutineScope,
 ) : StateContext {
     override fun dispatcher(): StateDispatcher = dispatcher
-
-    override fun StateContext.dispatch(
+    override fun dispatch(
         block: suspend StateContext.() -> Unit,
-    ) {
-        scope.launch {
-            StateContextImpl(dispatcher, this).suspendApply {
+    ): Job {
+        return scope.launch {
+            StateContextImpl(dispatcher, this@launch).suspendApply {
                 block()
             }
         }
