@@ -1,5 +1,6 @@
 package net.kigawa.hakate.impl.state
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import net.kigawa.hakate.api.state.State
 import net.kigawa.hakate.api.state.StateContext
@@ -15,8 +16,8 @@ class StateImpl<T>(
 
     override fun currentValue(): T = flow.value
 
-    override fun <R> collect(context: StateContext, defaultValue: R, block: StateContext.(T, R) -> R) {
-        context.dispatch {
+    override fun <R> collect(context: StateContext, defaultValue: R, block: StateContext.(T, R) -> R): Job {
+        return context.dispatch {
             var defaultValue = defaultValue
             flow.collect {
                 defaultValue = block(it, defaultValue)
