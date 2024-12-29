@@ -7,9 +7,9 @@ on:
 
 jobs:
   test:
+    if: github.ref != 'refs/heads/main'
     uses: ./.github/workflows/test.yml
   cd:
-    needs: [test]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
@@ -29,7 +29,7 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
         run: |
-          echo "$GPG_PRIVATE_KEY" | base64 -d > kutil/sec.pem
+          echo "$GPG_PRIVATE_KEY" | base64 -d > sec.pem
           echo "signing.keyId=ED76201E" >> ./gradle.properties
           echo "signing.password=${GPG_PASSPHRASE}" >> ./gradle.properties
           echo "signing.secretKeyRingFile=sec.pem" >> ./gradle.properties
