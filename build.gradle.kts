@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import java.net.URI
 
 plugins {
     kotlin("multiplatform") version "2.1.0"
@@ -22,44 +23,8 @@ publishing {
             pom {
                 name = afId
                 description = "State management library"
-                url = "http://www.example.com/library"
+                url = "https://github.com/kigawa01/hakate"
                 properties = mapOf(
-                    "myProp" to "value",
-                    "prop.with.dots" to "anotherValue"
-                )
-                licenses {
-                    license {
-                        name = "The Apache License, Version 2.0"
-                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-                    }
-                }
-                developers {
-                    developer {
-                        id = "johnd"
-                        name = "John Doe"
-                        email = "john.doe@example.com"
-                    }
-                }
-                scm {
-                    connection = "scm:git:git://example.com/my-library.git"
-                    developerConnection = "scm:git:ssh://example.com/my-library.git"
-                    url = "http://example.com/my-library/"
-                }
-            }
-        }
-    }
-    publications {
-        withType<MavenPublication> {
-            artifactId = if (name == "kotlinMultiplatform") artifactId
-            else "$artifactId-$name"
-
-            pom {
-                name.set("kutil")
-                description.set("utilities for kotlin")
-                url.set("https://github.com/kigawa01/kutil/")
-                properties.set(
-                    mapOf(
-                    )
                 )
                 licenses {
                     license {
@@ -75,9 +40,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:https://github.com/kigawa01/kutil-java.git")
-                    developerConnection.set("scm:git:https://github.com/kigawa01/kutil-java.git")
-                    url.set("https://github.com/kigawa01/kutil-java")
+                    connection.set("scm:git:https://github.com/kigawa01/hakate.git")
+                    developerConnection.set("scm:git:https://github.com/kigawa01/hakate.git")
+                    url.set("https://github.com/kigawa01/hakate")
                 }
             }
         }
@@ -86,7 +51,7 @@ publishing {
     repositories {
         maven {
             name = "OSSRH"
-//            url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
