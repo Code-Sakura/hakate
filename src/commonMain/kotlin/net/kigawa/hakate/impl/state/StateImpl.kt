@@ -37,4 +37,11 @@ class StateImpl<T>(
         return state
     }
 
+    override fun <R> child(
+        context: StateContext, defaultValue: (T) -> R,
+        block: StateContext.(T, R) -> R,
+    ): State<R> {
+        return child(context, defaultValue(currentValue()), block)
+    }
+
 }

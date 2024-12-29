@@ -17,10 +17,12 @@ interface StateContext {
             null
         })
 
-    fun <T, R> State<T>.child(
-        context: StateContext, defaultValue: R, block: StateContext.(T, prev: R) -> R,
-    ): State<R> = this.child(this@StateContext, defaultValue, block)
+    fun <T, R> State<T>.child(defaultValue: R, block: StateContext.(parent: T, prev: R) -> R): State<R> =
+        this.child(this@StateContext, defaultValue, block)
 
-    fun <T, R> State<T>.child(block: StateContext.(T, prev: R?) -> R): State<R?> =
+    fun <T, R> State<T>.child(defaultValue: (T) -> R, block: StateContext.(parent: T, prev: R) -> R): State<R> =
+        this.child(this@StateContext, defaultValue, block)
+
+    fun <R,T> State<T>.child(block: StateContext.(parent: T, prev: R?) -> R): State<R?> =
         this.child(this@StateContext, null, block)
 }
