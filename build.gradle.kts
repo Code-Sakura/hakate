@@ -1,11 +1,14 @@
-import cl.franciscosolis.sonatypecentralupload.SonatypeCentralUploadTask
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import java.net.URI
 
 plugins {
-    kotlin("multiplatform") version "2.1.0"
-    `maven-publish`
-    alias(libs.plugins.sonatype.central.upload)
+    alias(libs.plugins.kotlinMultiplatform)
+    id("root.publication")
+    id("module.publication")
+    alias(libs.plugins.vanniktech.maven.publish)
+    alias(libs.plugins.dokka)
 }
 val gpId = "net.kigawa"
 val afId = "hakate"
@@ -13,78 +16,6 @@ val ver = "1.0.0"
 group = gpId
 version = ver
 
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = gpId
-            artifactId = afId
-            version = ver
-
-//            from(components["java"])
-            pom {
-                name = afId
-                description = "State management library"
-                url = "https://github.com/kigawa01/hakate"
-                properties = mapOf(
-                )
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("http://www.opensource.org/licenses/mit-license.php")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("net.kigawa")
-                        name.set("kigawa")
-                        email.set("contact@kigawa.net")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:https://github.com/kigawa01/hakate.git")
-                    developerConnection.set("scm:git:https://github.com/kigawa01/hakate.git")
-                    url.set("https://github.com/kigawa01/hakate")
-                }
-            }
-        }
-        tasks.named<SonatypeCentralUploadTask>("sonatypeCentralUpload") {
-            val jarTasks = listOf("jvmJar", "jsJar")
-            // 公開するファイルを生成するタスクに依存する。
-            dependsOn("sourcesJar", "generatePomFileForMavenPublication", *jarTasks.toTypedArray())
-
-            // Central Portalで生成したトークンを指定する。
-            username = System.getenv("MAVEN_USERNAME")
-            password = System.getenv("MAVEN_PASSWORD")
-
-            // タスク名から成果物を取得する。
-            archives = files(
-                *jarTasks.map { tasks.named(it) }.toTypedArray(),
-                tasks.named("sourcesJar"),
-            )
-            // POMファイルをタスクの成果物から取得する。
-            pom = file(
-                tasks.named("generatePomFileForMavenPublication").get().outputs.files.single()
-            )
-
-            // PGPの秘密鍵を指定する。
-            signingKey = System.getenv("GPG_PRIVATE_KEY")
-            // PGPの秘密鍵のパスフレーズを指定する。
-            signingKeyPassphrase = System.getenv("GPG_PASSPHRASE")
-        }
-    }
-
-    repositories {
-        maven {
-            name = "OSSRH"
-            url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-    }
-}
 
 
 repositories {
@@ -136,3 +67,13 @@ kotlin {
     }
 }
 
+
+
+mavenPublishing {
+    configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaHtml")))
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    if (project.hasProperty("mavenCentralUsername") ||
+        System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername") != null
+    )
+        signAllPublications()
+}
