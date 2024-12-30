@@ -2,9 +2,9 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin")
 }
 
+group = properties.get("project.groupeId") as String
+version = properties.get("project.version") as String
 allprojects {
-    group = "net.kigawa"
-    version = properties["project.version"] as String
 }
 
 nexusPublishing {
