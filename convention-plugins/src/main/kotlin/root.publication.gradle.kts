@@ -1,19 +1,16 @@
-import gradle.kotlin.dsl.accessors._b6bea14fb88fd11e46d6fb1ebe601eab.publishing
-import java.net.URI
-
 plugins {
     id("io.github.gradle-nexus.publish-plugin")
 }
 object Conf {
-    const val group = "net.kigawa"
-    const val version = "1.0.0"
+    const val GROUP = "net.kigawa.hakate"
+    const val VERSION = "1.0.0"
 }
 
-group = Conf.group
-version = Conf.version
+group = Conf.GROUP
+version = Conf.VERSION
 allprojects {
-    group = Conf.group
-    version = Conf.version
+    group = Conf.GROUP
+    version = Conf.VERSION
 }
 
 //publishing {
