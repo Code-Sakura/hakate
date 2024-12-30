@@ -1,10 +1,16 @@
 plugins {
     id("io.github.gradle-nexus.publish-plugin")
 }
+object Conf {
+    const val group = "net.kigawa"
+    const val version = "1.0.0"
+}
 
-group = properties.get("project.groupeId") as String
-version = properties.get("project.version") as String
+group = Conf.group
+version = Conf.version
 allprojects {
+    group = Conf.group
+    version = Conf.version
 }
 
 nexusPublishing {
