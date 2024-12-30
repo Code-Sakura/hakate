@@ -39,6 +39,7 @@ implementation("net.kigawa:hakate:1.0.0")
 new state
 ```kotlin
 val initializer = HakateInitializer()
+val dispatcher = initializer.newStateDispatcher()
 val state = stateDispatcher.newState("default value")
 ```
 
