@@ -2,7 +2,7 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin")
 }
 object Conf {
-    const val group = "net.kigawa.hakate"
+    const val group = "net.kigawa"
     const val version = "1.0.0"
 }
 
@@ -20,6 +20,8 @@ nexusPublishing {
         sonatype {  //only for users registered in Sonatype after 24 Feb 2021
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = System.getenv("MAVEN_USERNAME")
+            password = System.getenv("MAVEN_PASSWORD")
         }
     }
 }
