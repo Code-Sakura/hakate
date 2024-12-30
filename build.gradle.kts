@@ -1,9 +1,11 @@
+import cl.franciscosolis.sonatypecentralupload.SonatypeCentralUploadTask
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import java.net.URI
 
 plugins {
     kotlin("multiplatform") version "2.1.0"
     `maven-publish`
+    alias(libs.plugins.sonatype.central.upload)
 }
 val gpId = "net.kigawa"
 val afId = "hakate"
@@ -45,6 +47,30 @@ publishing {
                     url.set("https://github.com/kigawa01/hakate")
                 }
             }
+        }
+        tasks.named<SonatypeCentralUploadTask>("sonatypeCentralUpload") {
+            // 公開するファイルを生成するタスクに依存する。
+            dependsOn("jar", "sourcesJar", "javadocJar", "generatePomFileForMavenPublication")
+
+            // Central Portalで生成したトークンを指定する。
+            username = System.getenv("MAVEN_USERNAME")
+            password = System.getenv("MAVEN_PASSWORD")
+
+            // タスク名から成果物を取得する。
+            archives = files(
+                tasks.named("jar"),
+                tasks.named("sourcesJar"),
+                tasks.named("javadocJar"),
+            )
+            // POMファイルをタスクの成果物から取得する。
+            pom = file(
+                tasks.named("generatePomFileForMavenPublication").get().outputs.files.single()
+            )
+
+            // PGPの秘密鍵を指定する。
+            signingKey = System.getenv("GPG_PRIVATE_KEY")
+            // PGPの秘密鍵のパスフレーズを指定する。
+            signingKeyPassphrase = System.getenv("GPG_PASSPHRASE")
         }
     }
 
