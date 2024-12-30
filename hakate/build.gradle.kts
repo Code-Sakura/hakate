@@ -36,13 +36,13 @@ kotlin {
     }
     sourceSets["commonMain"].dependencies {
         implementation(libs.kotlinx.coroutines.core)
-        implementation(libs.kotlinx.datetime)
         implementation(libs.kotlin.stdlib)
     }
     sourceSets["commonTest"].dependencies {
         implementation(kotlin("test-common"))
         implementation(kotlin("test-annotations-common"))
         implementation(libs.kotlinx.coroutines.test)
+        implementation(libs.kotlinx.datetime)
 
     }
     sourceSets["jvmMain"].dependencies {
