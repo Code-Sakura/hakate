@@ -10,11 +10,6 @@ plugins {
     alias(libs.plugins.vanniktech.maven.publish)
     alias(libs.plugins.dokka)
 }
-val gpId = properties.get("project.groupeId") as String
-val ver = properties.get("project.version") as String
-group = gpId
-version = ver
-
 
 
 repositories {
