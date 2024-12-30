@@ -14,4 +14,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "net.kigawa.hakate"
+rootProject.name = "hakate"
+include(":hakate")
