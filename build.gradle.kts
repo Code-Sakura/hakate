@@ -49,8 +49,9 @@ publishing {
             }
         }
         tasks.named<SonatypeCentralUploadTask>("sonatypeCentralUpload") {
+            val jarTasks = listOf("jvmJar", "jsJar")
             // 公開するファイルを生成するタスクに依存する。
-            dependsOn("jar", "sourcesJar", "javadocJar", "generatePomFileForMavenPublication")
+            dependsOn("sourcesJar", "generatePomFileForMavenPublication", *jarTasks.toTypedArray())
 
             // Central Portalで生成したトークンを指定する。
             username = System.getenv("MAVEN_USERNAME")
@@ -58,9 +59,8 @@ publishing {
 
             // タスク名から成果物を取得する。
             archives = files(
-                tasks.named("jar"),
+                *jarTasks.map { tasks.named(it) }.toTypedArray(),
                 tasks.named("sourcesJar"),
-                tasks.named("javadocJar"),
             )
             // POMファイルをタスクの成果物から取得する。
             pom = file(
