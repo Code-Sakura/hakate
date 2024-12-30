@@ -3,8 +3,8 @@ plugins {
 }
 
 allprojects {
-    group = properties.get("project.groupeId") as String
-    version = properties.get("project.version") as String
+    group = "net.kigawa"
+    version = properties["project.version"] as String
 }
 
 nexusPublishing {
