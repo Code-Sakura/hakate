@@ -10,9 +10,8 @@ plugins {
     alias(libs.plugins.vanniktech.maven.publish)
     alias(libs.plugins.dokka)
 }
-val gpId = "net.kigawa"
-val afId = "hakate"
-val ver = "1.0.0"
+val gpId = properties.get("project.groupeId") as String
+val ver = properties.get("project.version") as String
 group = gpId
 version = ver
 

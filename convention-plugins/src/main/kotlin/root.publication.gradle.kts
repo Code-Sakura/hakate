@@ -3,8 +3,8 @@ plugins {
 }
 
 allprojects {
-    group = "io.github.atsushieno.multiplatform-library-template-nexus-publisher"
-    version = "0.0.2"
+    group = properties.get("project.groupeId") as String
+    version = properties.get("project.version") as String
 }
 
 nexusPublishing {
