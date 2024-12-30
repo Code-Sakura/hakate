@@ -2,7 +2,7 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin")
 }
 object Conf {
-    const val group = "net.kigawa"
+    const val group = "net.kigawa.hakate"
     const val version = "1.0.0"
 }
 
