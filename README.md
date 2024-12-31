@@ -2,7 +2,8 @@
 
 ## About
 
-* state managing library for kotlin
+* A state managing library for kotlin
+* It can manage state with dependency
 
 ### repository
 
@@ -13,6 +14,8 @@
 ### Requirement
 
 * kotlin
+  * jvm
+  * js
 
 ### Getting Started
 
