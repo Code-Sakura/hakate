@@ -27,14 +27,14 @@ pom.xml
 <dependency>
   <groupId>net.kigawa</groupId>
   <artifactId>hakate</artifactId>
-  <version>1.0.0</version>
+  <version>{version}</version>
 </dependency>
 ```
 
 build.gradle.kts
 
 ```build.gradle.kts
-implementation("net.kigawa:hakate:1.0.0")
+implementation("net.kigawa:hakate:{version}")
 ```
 
 #### 2. write the code
