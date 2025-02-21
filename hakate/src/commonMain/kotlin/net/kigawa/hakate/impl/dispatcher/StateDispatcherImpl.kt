@@ -2,6 +2,7 @@ package net.kigawa.hakate.impl.dispatcher
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import net.kigawa.hakate.api.state.MutableState
 import net.kigawa.hakate.api.state.State
 import net.kigawa.hakate.api.state.StateContext
 import net.kigawa.hakate.api.state.StateDispatcher
@@ -11,8 +12,8 @@ import net.kigawa.hakate.impl.state.StateImpl
 class StateDispatcherImpl(
     private val coroutineScope: CoroutineScope,
 ) : StateDispatcher {
-    override fun <T> newState(defaultValue: T): State<T> {
-        return StateImpl(defaultValue)
+    override fun <T> newState(defaultValue: T): MutableState<T> {
+        return StateImpl(defaultValue, StateContextImpl(this@StateDispatcherImpl, coroutineScope))
     }
 
     override fun <T> currentValue(state: State<T>): T {

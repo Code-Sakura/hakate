@@ -59,7 +59,7 @@ stateDispatcher.useState {
 child state
 ```kotlin
 stateDispatcher.useState {
-  val child = state.child { parent, prev: String? ->
+  val child = state.child { parent ->
     return@child "$parent-child"
   }
 }

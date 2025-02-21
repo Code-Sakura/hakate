@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "hakate"
 include(":hakate")
+include(":sample")

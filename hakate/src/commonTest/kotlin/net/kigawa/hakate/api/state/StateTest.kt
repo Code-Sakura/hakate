@@ -39,11 +39,10 @@ class StateTest : StateTestBase() {
         var value: String? = null
         var isSet = false
         stateDispatcher.useState {
-            val child = state.child { parent, prev: String? ->
+            val child = state.child { parent ->
                 return@child "$parent-child"
             }
             child.collect {
-                if (it == null) return@collect
                 value = it
                 isSet = true
             }
@@ -60,3 +59,4 @@ class StateTest : StateTestBase() {
     }
 
 }
+
