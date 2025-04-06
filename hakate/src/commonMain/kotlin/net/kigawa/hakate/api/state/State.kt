@@ -2,7 +2,9 @@ package net.kigawa.hakate.api.state
 
 import kotlinx.coroutines.Job
 
+@Suppress("unused")
 interface State<T> {
+    val stateContext: StateContext
     fun collect(context: StateContext, block: suspend StateContext.(value: T) -> Unit): Job
     fun <R> collect(
         context: StateContext, defaultValue: R, block: suspend StateContext.(value: T, prev: R) -> R,
@@ -20,4 +22,5 @@ interface State<T> {
 
     fun <R> child(block: (T) -> R): State<R>
     fun currentValue(): T
+    fun <U, R> merge(state: State<U>, block: (first: T, second: U) -> R): State<R>
 }
