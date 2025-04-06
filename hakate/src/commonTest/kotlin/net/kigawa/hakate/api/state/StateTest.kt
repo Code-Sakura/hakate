@@ -54,8 +54,8 @@ class StateTest : StateTestBase() {
         isSet = false
         state.set(next)
 
-//        waitStateSet { isSet }
-//        assertEquals("$next-child", value)
+        waitStateSet { isSet }
+        assertEquals("$next-child", value)
     }
 
 }

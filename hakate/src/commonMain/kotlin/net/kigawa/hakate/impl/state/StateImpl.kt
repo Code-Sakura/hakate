@@ -8,7 +8,7 @@ import net.kigawa.hakate.api.state.StateContext
 
 class StateImpl<T>(
     defaultValue: T,
-    private val stateContext: StateContext,
+    override val stateContext: StateContext,
 ) : MutableState<T> {
     private val flow = MutableStateFlow<T>(defaultValue)
     override fun collect(
@@ -45,5 +45,17 @@ class StateImpl<T>(
     }
 
     override fun currentValue(): T = flow.value
+    override fun <U, R> merge(
+        state: State<U>, block: (T, U) -> R,
+    ): State<R> {
+        val mergedContext = stateContext.merge(state.stateContext)
+        val newState = StateImpl(block(currentValue(), state.currentValue()), mergedContext)
+        collect(mergedContext) { v1 ->
+            state.collect(mergedContext) { v2 ->
+                newState.set(block(v1, v2))
+            }
+        }
+        return newState
+    }
 
 }

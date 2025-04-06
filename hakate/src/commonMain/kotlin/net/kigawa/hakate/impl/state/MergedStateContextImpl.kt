@@ -2,32 +2,39 @@ package net.kigawa.hakate.impl.state
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.kigawa.hakate.api.state.StateContext
 import net.kigawa.hakate.api.state.StateDispatcher
 import net.kigawa.hakate.impl.Utl.suspendApply
 
-class StateContextImpl(
-    private val dispatcher: StateDispatcher,
-    val coroutineScope: CoroutineScope,
+class MergedStateContextImpl(
+    private val first: StateContext,
+    private val second: StateContext,
 ) : StateContext {
     override fun launch(block: suspend CoroutineScope.() -> Unit): Job {
-        return coroutineScope.launch(block = block)
+        return first.launch {
+            val f = this
+            second.launch {
+                val s = this
+                f.launch { withContext(s.coroutineContext) { block() } }
+            }
+        }
     }
 
-    override fun dispatcher(): StateDispatcher = dispatcher
+    override fun dispatcher(): StateDispatcher = first.dispatcher()
     override fun dispatch(
         block: suspend StateContext.() -> Unit,
     ): Job {
         return launch {
-            StateContextImpl(dispatcher, this@launch).suspendApply {
+            StateContextImpl(dispatcher(), this@launch).suspendApply {
                 block()
             }
         }
     }
 
     override fun cancel() {
-        coroutineScope.cancel("cancel by StateContext")
+        first.cancel()
+        second.cancel()
     }
 }
