@@ -5,6 +5,7 @@ import kotlinx.coroutines.Job
 import net.kigawa.hakate.impl.state.MergedStateContextImpl
 
 interface StateContext {
+    val coroutineScope: CoroutineScope
     fun launch(block: suspend CoroutineScope.() -> Unit): Job
     fun dispatcher(): StateDispatcher
     fun dispatch(block: suspend StateContext.() -> Unit): Job
@@ -18,4 +19,5 @@ interface StateContext {
     fun merge(other: StateContext): StateContext {
         return MergedStateContextImpl(this, other)
     }
+    fun newStateContext(): StateContext
 }
