@@ -7,4 +7,5 @@ interface StateDispatcher {
     fun <T> newState(): MutableState<T?> = newState(null)
     fun <T> currentValue(state: State<T>): T
     fun <T> useState(block: suspend StateContext.() -> T): Job
+    fun newStateContext(): StateContext
 }

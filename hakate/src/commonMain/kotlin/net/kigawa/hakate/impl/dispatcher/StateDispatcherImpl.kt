@@ -13,7 +13,7 @@ class StateDispatcherImpl(
     private val coroutineScope: CoroutineScope,
 ) : StateDispatcher {
     override fun <T> newState(defaultValue: T): MutableState<T> {
-        return StateImpl(defaultValue, StateContextImpl(this@StateDispatcherImpl, coroutineScope))
+        return StateImpl(defaultValue, newStateContext())
     }
 
     override fun <T> currentValue(state: State<T>): T {
@@ -21,6 +21,10 @@ class StateDispatcherImpl(
     }
 
     override fun <T> useState(block: suspend StateContext.() -> T): Job {
-        return StateContextImpl(this@StateDispatcherImpl, coroutineScope).dispatch { block() }
+        return newStateContext().dispatch { block() }
+    }
+
+    override fun newStateContext(): StateContext {
+        return StateContextImpl(this@StateDispatcherImpl, coroutineScope)
     }
 }
