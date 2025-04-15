@@ -46,10 +46,9 @@ kotlin {
 
     }
     sourceSets["jvmMain"].dependencies {
-        implementation(libs.kotlin.test.junit)
     }
     sourceSets["jvmTest"].dependencies {
-
+        implementation(libs.kotlin.test.junit)
     }
 
     sourceSets["jsMain"].dependencies {
