@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import net.kigawa.hakate.api.state.StateContext
 import net.kigawa.hakate.api.state.StateDispatcher
 import net.kigawa.hakate.impl.Utl.suspendApply
+import net.kigawa.hakate.impl.dispatcher.StateDispatcherImpl
 import kotlin.coroutines.EmptyCoroutineContext
 
 class StateContextImpl(
@@ -14,7 +15,7 @@ class StateContextImpl(
         return coroutineScope.launch(block = block)
     }
 
-    override fun dispatcher(): StateDispatcher = dispatcher
+    override fun dispatcher(): StateDispatcher = StateDispatcherImpl(coroutineScope)
     override fun dispatch(
         block: suspend StateContext.() -> Unit,
     ): Job {
