@@ -1,9 +1,24 @@
+/**
+ * Root publication configuration script for the project.
+ * This script sets up the necessary configuration for publishing artifacts to Maven Central.
+ */
 plugins {
     id("io.github.gradle-nexus.publish-plugin")
 }
+
+/**
+ * Configuration object containing project-wide constants.
+ */
 object Conf {
+    /**
+     * The group ID used for all artifacts in this project.
+     */
     const val GROUP = "net.kigawa"
-    const val VERSION = "3.3.2"
+
+    /**
+     * The version number for all artifacts in this project.
+     */
+    const val VERSION = "3.4.0"
 }
 
 group = Conf.GROUP
