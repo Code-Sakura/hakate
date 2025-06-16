@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import net.kigawa.hakate.api.state.StateContext
 import net.kigawa.hakate.api.state.StateDispatcher
 import net.kigawa.hakate.impl.Utl.suspendApply
+import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 /**
